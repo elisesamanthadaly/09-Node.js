@@ -18,19 +18,18 @@
 3
 
 ## Contributing
-4
+3
 
 ## Tests
-5
+4
 
 ## Questions
-My GitHub username is 6, and you can view my profile [here](https://github.com/6/).
+My GitHub username is 5, and you can view my profile [here](https://github.com/5/).
 
-If you have any questions and would like to contact me, please email me at 7.
+If you have any questions and would like to contact me, please email me at 6.
 
 ## License
 Mozilla Public License Version 2.0
-            ==================================
             
             1. Definitions
             --------------
