@@ -1,0 +1,20 @@
+{
+  "name": "09-Node.js-Homework",
+  "version": "1.0.0",
+  "description": "Professional README Generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elisesamanthadaly/09-Node.js-Homework.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elisesamanthadaly/09-Node.js-Homework/issues"
+  },
+  "homepage": "https://github.com/elisesamanthadaly/09-Node.js-Homework#readme"
+}
