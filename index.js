@@ -1,8 +1,10 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 
-var chosenLicense;
 var licenseBadge;
+var licenseText;
+
+// Framework for the README document
 const generateREADME = answers =>
 `# ${answers.title}
 ${licenseBadge}
@@ -36,10 +38,11 @@ My GitHub username is ${answers.username}, and you can view my profile [here](ht
 If you have any questions and would like to contact me, please email me at ${answers.email}.
 
 ## License
-${chosenLicense}
+${licenseText}
 `;
 
 inquirer
+    // Start README generation by invoking node index.js, and answer the prompts
     .prompt([
         {
             type: "input",
@@ -67,6 +70,7 @@ inquirer
             message: "Please select a license for your project.",
             choices: ["MIT License", "Boost Software License 1.0", "The Unlicense"],
         },
+        // Only the MIT license requires a year/copyright holder name
         {
             type: "input",
             name: "year",
@@ -105,9 +109,11 @@ inquirer
         },
     ])
     .then((answers) => {
+        // Populates license badge/text content depending on choice
         switch(answers.license) {
         case "MIT License":
-            chosenLicense = `MIT License
+            licenseBadge = "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)";
+            licenseText = `MIT License
 
 Copyright (c) ${answers.year} ${answers.fullname}
 
@@ -128,10 +134,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.`;
-            licenseBadge = `[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)`;
             break;
         case "Boost Software License 1.0":
-            chosenLicense = `Boost Software License - Version 1.0 - August 17th, 2003
+            licenseBadge = "[![License](https://img.shields.io/badge/License-Boost%201.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)";
+            licenseText = `Boost Software License - Version 1.0 - August 17th, 2003
 
 Permission is hereby granted, free of charge, to any person or organization
 obtaining a copy of the software and accompanying documentation covered by
@@ -154,10 +160,10 @@ SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
 FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.`;
-            licenseBadge = `[![License](https://img.shields.io/badge/License-Boost%201.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)`;
             break;
         case "The Unlicense":
-            chosenLicense = `This is free and unencumbered software released into the public domain.
+            licenseBadge = "[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)";
+            licenseText = `This is free and unencumbered software released into the public domain.
 
 Anyone is free to copy, modify, publish, use, compile, sell, or
 distribute this software, either in source code form or as a compiled
@@ -181,12 +187,13 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <https://unlicense.org>`;
-            licenseBadge = `[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)`;
             break;
         }
 
+        // Fills in README form
         const readmeContent = generateREADME(answers);
 
+        // Writes README file
         fs.writeFile(`${answers.title}-README.md`, readmeContent, (err) =>
             err ? console.log(err) : console.log(`Successfully created ${answers.title}-README.md!`)
         );
