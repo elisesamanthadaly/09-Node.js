@@ -1,7 +1,12 @@
-# 1
+const inquirer = require("inquirer");
+const fs = require("fs");
+
+var chosenLicense;
+const generateREADME = answers =>
+`# ${answers.title}
 
 ## Description
-2
+${answers.description}
 
 ## Table of Contents
 * [Installation](#installation)  
@@ -12,24 +17,102 @@
 * [License](#license)  
 
 ## Installation
-3
+${answers.installation}
 
 ## Usage
-4
+${answers.usage}
 
 ## Contributing
-5
+${answers.contributing}
 
 ## Tests
-6
+${answers.tests}
 
 ## Questions
-My GitHub username is 7, and you can view my profile [here](https://github.com/7/).
+My GitHub username is ${answers.username}, and you can view my profile [here](https://github.com/${answers.username}/).
 
-If you have any questions and would like to contact me, please email me at 8.
+If you have any questions and would like to contact me, please email me at ${answers.email}.
 
 ## License
-                    GNU GENERAL PUBLIC LICENSE
+${chosenLicense}
+`;
+
+inquirer
+    .prompt([
+        {
+            type: "input",
+            name: "title",
+            message: "What is your project title?",
+        },
+        {
+            type: "input",
+            name: "description",
+            message: "Please enter a description for your project.",
+        },
+        {
+            type: "input",
+            name: "installation",
+            message: "Please enter installation directions for your project.",
+        },
+        {
+            type: "input",
+            name: "usage",
+            message: "Please enter usage information for your project.",
+        },
+        {
+            type: "list",
+            name: "license",
+            message: "Please select a license for your project.",
+            choices: ["MIT License", "GNU General Public License v3.0", "The Unlicense"],
+        },
+        {
+            type: "input",
+            name: "contributing",
+            message: "Please enter contribution guidelines for your project.",
+        },
+        {
+            type: "input",
+            name: "tests",
+            message: "Please enter test instructions for your project.",
+        },
+        {
+            type: "input",
+            name: "username",
+            message: "What is your GitHub username?",
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "What is your email address?",
+        },
+    ])
+    .then((answers) => {
+        switch(answers.license) {
+        case "MIT License":
+            chosenLicense = `MIT License
+
+            Copyright (c) [year] [fullname]
+            
+            Permission is hereby granted, free of charge, to any person obtaining a copy
+            of this software and associated documentation files (the "Software"), to deal
+            in the Software without restriction, including without limitation the rights
+            to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+            copies of the Software, and to permit persons to whom the Software is
+            furnished to do so, subject to the following conditions:
+            
+            The above copyright notice and this permission notice shall be included in all
+            copies or substantial portions of the Software.
+            
+            THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+            IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+            FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+            AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+            LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+            OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+            SOFTWARE.`;
+            break;
+        case "GNU General Public License v3.0":
+            chosenLicense = `                    GNU GENERAL PUBLIC LICENSE
             Version 3, 29 June 2007
 
 Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
@@ -684,11 +767,11 @@ If the program does terminal interaction, make it output a short
 notice like this when it starts in an interactive mode:
 
 <program>  Copyright (C) <year>  <name of author>
-This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+This program comes with ABSOLUTELY NO WARRANTY; for details type \`show w'.
 This is free software, and you are welcome to redistribute it
-under certain conditions; type `show c' for details.
+under certain conditions; type \`show c' for details.
 
-The hypothetical commands `show w' and `show c' should show the appropriate
+The hypothetical commands \`show w' and \`show c' should show the appropriate
 parts of the General Public License.  Of course, your program's commands
 might be different; for a GUI interface, you would use an "about box".
 
@@ -702,4 +785,39 @@ into proprietary programs.  If your program is a subroutine library, you
 may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
-<https://www.gnu.org/licenses/why-not-lgpl.html>.
+<https://www.gnu.org/licenses/why-not-lgpl.html>.`;
+            break;
+        case "The Unlicense":
+            chosenLicense = `This is free and unencumbered software released into the public domain.
+
+            Anyone is free to copy, modify, publish, use, compile, sell, or
+            distribute this software, either in source code form or as a compiled
+            binary, for any purpose, commercial or non-commercial, and by any
+            means.
+            
+            In jurisdictions that recognize copyright laws, the author or authors
+            of this software dedicate any and all copyright interest in the
+            software to the public domain. We make this dedication for the benefit
+            of the public at large and to the detriment of our heirs and
+            successors. We intend this dedication to be an overt act of
+            relinquishment in perpetuity of all present and future rights to this
+            software under copyright law.
+            
+            THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+            EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+            MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+            IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+            OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+            ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+            OTHER DEALINGS IN THE SOFTWARE.
+            
+            For more information, please refer to <https://unlicense.org>`;
+            break;
+        }
+
+        const readmeContent = generateREADME(answers);
+
+        fs.writeFile(`${answers.title}-README.md`, readmeContent, (err) =>
+            err ? console.log(err) : console.log(`Successfully created ${answers.title}-README.md!`)
+        );
+    });

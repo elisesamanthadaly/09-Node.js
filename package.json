@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/elisesamanthadaly/09-Node.js-Homework/issues"
   },
-  "homepage": "https://github.com/elisesamanthadaly/09-Node.js-Homework#readme"
+  "homepage": "https://github.com/elisesamanthadaly/09-Node.js-Homework#readme",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "inquirer": "^8.0.0"
+  }
 }
