@@ -2,8 +2,10 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 
 var chosenLicense;
+var licenseBadge;
 const generateREADME = answers =>
 `# ${answers.title}
+${licenseBadge}
 
 ## Description
 ${answers.description}
@@ -67,6 +69,22 @@ inquirer
         },
         {
             type: "input",
+            name: "year",
+            message: "What year is it?",
+            when: function (answers) {
+                return answers.license === "MIT License";
+              },
+        },
+        {
+            type: "input",
+            name: "fullname",
+            message: "What is your full name?",
+            when: function (answers) {
+                return answers.license === "MIT License";
+              },
+        },
+        {
+            type: "input",
             name: "contributing",
             message: "Please enter contribution guidelines for your project.",
         },
@@ -91,7 +109,7 @@ inquirer
         case "MIT License":
             chosenLicense = `MIT License
 
-Copyright (c) [year] [fullname]
+Copyright (c) ${answers.year} ${answers.fullname}
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -110,6 +128,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.`;
+            licenseBadge = `[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)`;
             break;
         case "Boost Software License 1.0":
             chosenLicense = `Boost Software License - Version 1.0 - August 17th, 2003
@@ -135,6 +154,7 @@ SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
 FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.`;
+            licenseBadge = `[![License](https://img.shields.io/badge/License-Boost%201.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)`;
             break;
         case "The Unlicense":
             chosenLicense = `This is free and unencumbered software released into the public domain.
@@ -161,6 +181,7 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <https://unlicense.org>`;
+            licenseBadge = `[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)`;
             break;
         }
 
