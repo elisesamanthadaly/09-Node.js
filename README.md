@@ -1,4 +1,4 @@
-# Mozilla
+# mozilla
 
 ## Description
 1
@@ -30,7 +30,8 @@ If you have any questions and would like to contact me, please email me at 6.
 
 ## License
 Mozilla Public License Version 2.0
-            
+            ==================================
+
             1. Definitions
             --------------
             

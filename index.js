@@ -113,7 +113,8 @@ inquirer
             break;
         case "Mozilla Public License 2.0":
             chosenLicense = `Mozilla Public License Version 2.0
-            
+            ==================================
+
             1. Definitions
             --------------
             
