@@ -1,4 +1,4 @@
-# 09 Node.js Homework
+# 09 Node.js
 # Professional README Generator
 
 This application is a README generator run through the command line. Users are taken through a series of prompts to populate a README file, which is then saved to the application repository on their local machine.
